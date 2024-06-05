@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Header() {
   return (
     <div className="max-w-screen-xl mx-auto">
@@ -10,16 +12,18 @@ function Header() {
           />
         </div>
         <div className="grow">
-          <ul className="flex justify-end gap-5  h-full ">
+          <ul className="flex justify-end gap-5 h-full cursor-pointer">
             <li className=" p-2">Home</li>
             <li className=" p-2">Categories</li>
             <li className=" p-2">Write</li>
-            <li className=" p-2">Sign in</li>
+            <li className=" p-2"><Link to="/login">Sign in</Link></li>
 
             <li className="basis-32">
-              <button className="h-full w-full  p-2 border border-black rounded-full">
-                Register
-              </button>
+              <Link to="/signup">
+                <button className="h-full w-full  p-2 border border-black rounded-full">
+                  Register
+                </button>
+              </Link>
             </li>
           </ul>
         </div>
