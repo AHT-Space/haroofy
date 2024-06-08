@@ -1,3 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    height: 100vh;
+  }
+  
+  .ql-editor {
+    font-size: 1.05rem;
+  }
+  
+  .post-content p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-content h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: sans-serif;
+    margin: 1.5rem 0;
+  }
+  
+  .post-content h2 {
+    font-size: 1.4rem;
+    font-family: sans-serif;
+    margin: 1.5rem 0;
+  }
+  
+  .post-content a {
+    color: rgb(73, 149, 199);
+    text-decoration: none;
+  }
+  
+  .post-content a:hover {
+    text-decoration: underline;
+  }
+
+
+  
+
+  .carousel .control-arrow {
+    display: none;
+  }
+  
+  .carousel .slider-wrapper {
+    position: relative;
+  }
+  
+  .carousel .slider-wrapper::after {
+    content: '';
+    display: block;
+    height: 40px; /* Adjust the height as needed */
+  }
+  
+  .carousel .custom-control {
+    position: absolute;
+    bottom: -40px; /* Adjust the position to match the height in the ::after pseudo-element */
+    width: 100%;
+    text-align: center;
+  }
+  
+  .carousel .custom-control button {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    color: black; /* Set the button color to black */
+  }
+  
+  .carousel .custom-control button:focus {
+    outline: none;
+  }
+  
+  

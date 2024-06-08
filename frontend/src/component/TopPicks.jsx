@@ -1,16 +1,16 @@
 function TopPicks() {
   return (
     <div className="max-w-screen-xl mx-auto mt-10">
-      <h1 className="font-serif text-5xl text-white p-3">OUR TOP PICKS</h1>
-      <div className="gap-5 p-2 grid grid-cols-[1fr_minmax(0,400px)] grid-rows-[18rem_18rem] ">
-        <div className="row-span-2 py-5 relative">
+      <h1 className="font-serif text-4xl sm:text-5xl text-white p-3">OUR TOP PICKS</h1>
+      <div className="gap-5 p-2 grid grid-cols-1 min-[560px]:grid-cols-[1fr_1fr] md:grid-cols-[1.5fr_1fr] lg:grid-cols-[2fr_1fr] min-[560px]:grid-rows-[18rem_18rem] grid-rows-[10rem_18rem]">
+        <div className="row-span-2 py-5 relative h-full">
           <img
             className="h-full w-full object-cover aspect-[5/3]"
             src="https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
           />
           <div className="absolute bg-main w-full bottom-0 p-3">
-            <h2 className="text-3xl p-2">
+            <h2 className="text-2xl sm:text-3xl p-2">
               The Future of AI: Transforming Everyday Life
             </h2>
             <p className="p-2">
@@ -49,3 +49,5 @@ function TopPicks() {
 }
 
 export default TopPicks;
+
+

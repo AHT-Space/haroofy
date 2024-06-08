@@ -1,7 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from '../../redux/user/userSlice';
+import axios from 'axios';
+import OAuth from './OAuth';
 
 const LoginFormComponent = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      return dispatch(signInFailure('Please fill all the fields'));
+    }
+
+    try {
+      dispatch(signInStart());
+      const response = await axios.post('api/v1/users/login', {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        console.log('Login successful:', response);
+        dispatch(signInSuccess(response.data));
+        navigate('/');
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Login error:', error);
+      if (error.response.data.message) dispatch(signInFailure(error.response.data.message));
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
       <div className="w-full max-w-full flex flex-col md:flex-row overflow-hidden">
@@ -17,14 +58,16 @@ const LoginFormComponent = () => {
         </div>
 
         {/* Right Side */}
-        <div className="w-full md:3/5 lg:w-3/6 p-8 flex flex-col justify-center justify-self-start">
+        <div className="w-full md:w-2/5 lg:w-3/6 p-4 sm:p-8 flex flex-col justify-center justify-self-start">
           <h2 className="text-3xl font-semibold mb-6 text-center font-serif">Login</h2>
-          <form className="space-y-4 w-full max-w-md mx-auto">
+          <form className="space-y-4 w-full max-w-md mx-auto" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
@@ -34,23 +77,40 @@ const LoginFormComponent = () => {
               <input
                 type="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            <Button
+              color='dark'
+              type='submit'
+              disabled={loading}
+              className='w-full py-1 text-white rounded-md transition duration-300'
             >
-              Login
-            </button>
+              {loading ? (
+                <>
+                  <Spinner size='sm' />
+                  <span className='pl-3'>Loading...</span>
+                </>
+              ) : (
+                'Login'
+              )}
+            </Button>
+            <OAuth />
           </form>
-          <p className="mt-4 text-center text-sm text-gray-600">
+          <div className="mt-4 text-center text-sm text-gray-600">
             Don't have an account?{' '}
             <Link to="/signup" className="text-blue-500 hover:underline">
-              register
+              Register
             </Link>
-          </p>
+          </div>
+          {errorMessage && (
+            <Alert className='mt-5' color='failure'>
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

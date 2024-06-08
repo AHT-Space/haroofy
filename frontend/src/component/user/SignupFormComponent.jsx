@@ -1,7 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import OAuth from './OAuth';
 
 const SignupFormComponent = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email || !password) {
+      return setErrorMessage('Please fill out all fields.');
+    }
+
+    try {
+      setLoading(true);
+      setErrorMessage('');
+      setSuccessMessage('');
+      const response = await axios.post('api/v1/users/register', {
+        name,
+        email,
+        password,
+      });
+      setLoading(false);
+      if (response.status === 200) {
+        console.log('Signup successful:', response);
+        setSuccessMessage("Successfully logged in, redirecting to login page...");
+        navigate('/login');
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Signup error:', error);
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
       <div className="w-full max-w-full flex flex-col md:flex-row overflow-hidden">
@@ -17,15 +58,17 @@ const SignupFormComponent = () => {
         </div>
 
         {/* Right Side */}
-        <div className="w-full md:3/5 lg:w-3/6 p-8 flex flex-col justify-center justify-self-start">
+        <div className="w-full md:w-2/5 lg:w-3/6 p-4 sm:p-8 flex flex-col justify-center justify-self-start">
           <h2 className="text-3xl font-semibold mb-6 text-center font-serif">Register</h2>
-          <form className="space-y-4 w-full max-w-md mx-auto">
+          <form className="space-y-4 w-full max-w-md mx-auto" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
               <input
                 type="text"
-                id="username"
-                placeholder="Enter your username"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
@@ -34,6 +77,8 @@ const SignupFormComponent = () => {
               <input
                 type="email"
                 id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
@@ -43,16 +88,28 @@ const SignupFormComponent = () => {
               <input
                 type="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            <Button
+              color='dark'
+              type='submit'
+              disabled={loading}
+              className='w-full text-white py-1 rounded-md transition duration-300'
             >
-              Register
-            </button>
+              {loading ? (
+                <>
+                  <Spinner size='sm' />
+                  <span className='pl-3'>Loading...</span>
+                </>
+              ) : (
+                'Sign Up'
+              )}
+            </Button>
+            <OAuth />
           </form>
           <p className="mt-4 text-center text-sm text-gray-600">
             Already have an account?{' '}
@@ -60,6 +117,16 @@ const SignupFormComponent = () => {
               Login
             </Link>
           </p>
+          {errorMessage && (
+            <Alert className='mt-5' color='failure'>
+              {errorMessage}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert className='mt-5' color='success'>
+              {successMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>
