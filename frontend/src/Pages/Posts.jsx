@@ -42,27 +42,27 @@ const Posts = () => {
 
   return (
     <div className='bg-main'>
-    <div className="border-b border-black mb-4">
+      <div className="border-b border-black mb-4">
         <Header />
       </div>
-    <div className="max-w-screen-xl mx-auto min-h-screen p-4">
-      <div className="sm:flex sm:justify-between sm:items-center mb-8">
-        <h1 className="text-2xl font-bold max-[639px]:mb-4">All Blogs</h1>
-        <select
-          value={sortOrder}
-          onChange={handleSortChange}
-          className="bg-main border border-mainb rounded p-2"
-        >
-          <option value="recent-to-oldest">Recent to Oldest</option>
-          <option value="oldest-to-recent">Oldest to Recent</option>
-        </select>
+      <div className="max-w-screen-xl mx-auto min-h-screen p-4">
+        <div className="sm:flex sm:justify-between sm:items-center mb-8">
+          <h1 className="text-2xl font-bold max-[639px]:mb-4">All Blogs</h1>
+          <select
+            value={sortOrder}
+            onChange={handleSortChange}
+            className="bg-main border border-mainb rounded p-2"
+          >
+            <option value="recent-to-oldest">Recent to Oldest</option>
+            <option value="oldest-to-recent">Oldest to Recent</option>
+          </select>
+        </div>
+        <div className="grid gap-4">
+          {articles.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
+        </div>
       </div>
-      <div className="grid gap-4">
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
-        ))}
-      </div>
-    </div>
     </div>
   );
 };
