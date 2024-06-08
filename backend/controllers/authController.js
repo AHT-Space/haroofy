@@ -16,6 +16,7 @@ const signToken = id => {
         Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
       ),
       httpOnly: true,
+      sameSite: "none",
     };
     if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
     res.cookie("login_jwt", token, cookieOptions);
@@ -53,6 +54,7 @@ const signToken = id => {
       res.cookie("login_jwt", "jwt-expired", {
         expires: new Date(Date.now() + 10 * 1000),
         httpOnly: true,
+        sameSite: "none",
         secure: process.env.NODE_ENV === "production"
       });
       res.json({
