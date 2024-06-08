@@ -38,7 +38,7 @@ export default function UpdatePost() {
         const res = await fetch(`/api/v1/posts/${postId}`);
         const data = await res.json();
         if (!res.ok) {
-          console.log(data.message);
+          // console.log(data.message);
           setPublishError(data.message);
           return;
         }
@@ -111,17 +111,17 @@ export default function UpdatePost() {
   
       // Handle response data
       const data = res.data;
-      console.log(res);
+      // console.log(res);
       if (!res.statusText === "OK") {
         setPublishError(data.message);
         return;
       }
 
       setPublishError(null);
-      console.log('Navigating to:', `/article/${data.slug}`);
+      // console.log('Navigating to:', `/article/${data.slug}`);
       navigate(`/article/${data.slug}`);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setPublishError('Something went wrong');
     }
   };

@@ -31,13 +31,13 @@ const SignupFormComponent = () => {
       });
       setLoading(false);
       if (response.status === 200) {
-        console.log('Signup successful:', response);
+        // console.log('Signup successful:', response);
         setSuccessMessage("Successfully logged in, redirecting to login page...");
         navigate('/login');
       }
     } catch (error) {
       // Handle error
-      console.error('Signup error:', error);
+      // console.error('Signup error:', error);
       setErrorMessage(error.message);
       setLoading(false);
     }

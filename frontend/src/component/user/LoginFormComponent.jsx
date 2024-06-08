@@ -32,7 +32,7 @@ const LoginFormComponent = () => {
       });
 
       if (response.status === 200) {
-        console.log('Login successful:', response);
+        // console.log('Login successful:', response);
         dispatch(signInSuccess(response.data));
         navigate('/');
       }

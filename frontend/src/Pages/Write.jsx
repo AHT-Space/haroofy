@@ -57,7 +57,7 @@ export default function Write() {
     } catch (error) {
       setImageUploadError('Image upload failed');
       setImageUploadProgress(null);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -70,7 +70,7 @@ export default function Write() {
               withCredentials: true,
             });
       const data = await res.data;
-      console.log(res);
+      // console.log(res);
       if (res.statusText !== 'Created') {
         setPublishError(data.message);
         return;

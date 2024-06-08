@@ -38,7 +38,7 @@ function Articles() {
       try {
         const res = await axios.get(`api/v1/posts/post/top`);
         setTopArticles(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       } catch (err) {
         console.error(err);
       }
